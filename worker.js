@@ -39,11 +39,18 @@
     const lowest = Math.min(...allPrices);
     const highest = Math.max(...allPrices);
 
-    // 4. Viesti
+    // 4. Lisää 25,5% ALV ja muodosta viesti
+    const VAT_RATE = 0.255;
+    const addVat = v => Number((v * (1 + VAT_RATE)).toFixed(2));
+
+    const currentWithVat = addVat(current);
+    const lowestWithVat = addVat(lowest);
+    const highestWithVat = addVat(highest);
+
     const message =
-      `Hinta nyt: ${current} snt/kWh\n` +
-      `Päivän alin: ${lowest} snt/kWh\n` +
-      `Päivän korkein: ${highest} snt/kWh`;
+        `Hinta nyt: ${currentWithVat} snt/kWh (sis. alv 25,5%)\n` +
+        `Päivän alin: ${lowestWithVat} snt/kWh (sis. alv 25,5%)\n` +
+        `Päivän korkein: ${highestWithVat} snt/kWh (sis. alv 25,5%)`;
 
     // 5. Telegram
     const tgUrl = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`;
